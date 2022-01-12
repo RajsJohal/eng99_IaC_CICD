@@ -57,6 +57,10 @@ resource "aws_route_table" "PublicRT" {
 # Private Subnet Routing Table
 resource "aws_route_table" "PrivateRT" {
   vpc_id = aws_vpc.eng99_raj_vpc.id
+        route {
+            cidr_block = "0.0.0.0/0"
+            gateway_id = aws_internet_gateway.IGW.id
+        }
   tags = {
     Name = "eng99_raj_terraform_private_RT"
   }
@@ -272,7 +276,7 @@ resource "aws_instance" "db_instance" {
 
   instance_type = "t2.micro"
 
-  associate_public_ip_address = false 
+  associate_public_ip_address = true 
 
   subnet_id = aws_subnet.publicsubnet.id
 
