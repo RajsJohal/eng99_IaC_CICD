@@ -286,8 +286,8 @@ resource "aws_instance" "db_instance" {
 }
 
 # NAT Instance
-resource "aws_instance" "nat_instance" {
-  ami = "ami-00b9ad31459a9dcdf"
+resource "aws_instance" "ansible_instance" {
+  ami = "ami-07d8796a2b0f8d29c"
 
   instance_type = "t2.micro"
 
@@ -295,10 +295,10 @@ resource "aws_instance" "nat_instance" {
 
   subnet_id = aws_subnet.publicsubnet.id
 
-  vpc_security_group_ids = [aws_security_group.nat_sg.id]
+  vpc_security_group_ids = [aws_security_group.allow_tls.id]
 
   tags = {
-    Name = "eng99_raj_terraform_nat"
+    Name = "eng99_raj_terraform_ansible"
   }
 
   key_name = "eng99"
