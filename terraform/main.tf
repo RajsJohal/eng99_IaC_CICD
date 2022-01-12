@@ -260,7 +260,7 @@ resource "aws_instance" "app_instance" {
 
     # add tags for Name
     tags = {
-        Name = var.name
+        Name = "eng99_raj_terraform_app"
     }
 
     key_name = "eng99" # ensure that we have this key in .ssh folder
