@@ -1,0 +1,19 @@
+---
+- hosts: web
+  gather_facts: true
+  become: true
+  tasks:
+  - name: Install Nginx in web Agent Node
+    apt: pkg=nginx state=present
+    become_user: root
+  - name: Reverse Proxy Configuration
+    shell: sudo cp /home/ubuntu/eng99_IaC_CICD/app/default /etc/nginx/sites-available/default
+                                                                                                
+  - name: Restart Nginx                                                                         
+    shell: sudo systemctl restart nginx && sudo systemctl enable nginx
+
+ # - name: Import Mongo
+ #   import_playbook:  install_mongo.yml
+
+ # - name: Import Node
+ #   import_playbook: install_node.yml

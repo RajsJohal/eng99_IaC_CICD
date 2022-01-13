@@ -165,84 +165,84 @@ resource "aws_security_group" "db_sg" {
 }
 
 # Security Group for NAT instance
-resource "aws_security_group" "nat_sg" {
-  name = "eng99_raj_terraform_nat_sg"
-  description = "NAT Security Group"
-  vpc_id = aws_vpc.eng99_raj_vpc.id
+# resource "aws_security_group" "nat_sg" {
+#   name = "eng99_raj_terraform_nat_sg"
+#   description = "NAT Security Group"
+#   vpc_id = aws_vpc.eng99_raj_vpc.id
   
-  ingress {
-    description = "HTTPS"
-    from_port = 443
-    to_port = 443
-    protocol = "tcp"
-    cidr_blocks = ["10.0.0.0/24"]
-  }
+#   ingress {
+#     description = "HTTPS"
+#     from_port = 443
+#     to_port = 443
+#     protocol = "tcp"
+#     cidr_blocks = ["10.0.0.0/24"]
+#   }
 
-  ingress {
-    description = "All TCP"
-    from_port = 0
-    to_port = 65535
-    protocol = "tcp"
-    cidr_blocks = ["10.0.0.0/24"]
-  }
+#   ingress {
+#     description = "All TCP"
+#     from_port = 0
+#     to_port = 65535
+#     protocol = "tcp"
+#     cidr_blocks = ["10.0.0.0/24"]
+#   }
 
-  ingress {
-    description = "ssh"
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     description = "ssh"
+#     from_port = 22
+#     to_port = 22
+#     protocol = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  ingress {
-    description = "Allow Ping"
-    from_port = 8
-    to_port = 0
-    protocol = "icmp"
-    cidr_blocks = ["10.0.0.0/24"]
-  }
+#   ingress {
+#     description = "Allow Ping"
+#     from_port = 8
+#     to_port = 0
+#     protocol = "icmp"
+#     cidr_blocks = ["10.0.0.0/24"]
+#   }
 
-  ingress {
-    description = "HTTP"
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     description = "HTTP"
+#     from_port = 80
+#     to_port = 80
+#     protocol = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  egress {
-    description = "ssh"
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = ["10.0.0.0/24"]
-  }
+#   egress {
+#     description = "ssh"
+#     from_port = 22
+#     to_port = 22
+#     protocol = "tcp"
+#     cidr_blocks = ["10.0.0.0/24"]
+#   }
 
-  egress {
-    description = "HTTP"
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   egress {
+#     description = "HTTP"
+#     from_port = 80
+#     to_port = 80
+#     protocol = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  egress {
-    description = "Allow Ping"
-    from_port = 8
-    to_port = 0
-    protocol = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   egress {
+#     description = "Allow Ping"
+#     from_port = 8
+#     to_port = 0
+#     protocol = "icmp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  egress {
-    description = "HTTPS"
-    from_port = 443
-    to_port = 443
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   egress {
+#     description = "HTTPS"
+#     from_port = 443
+#     to_port = 443
+#     protocol = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-}
+# }
    
 
 # launching an app EC2 Instance using Terraform
@@ -290,23 +290,23 @@ resource "aws_instance" "db_instance" {
 }
 
 # NAT Instance
-resource "aws_instance" "ansible_instance" {
-  ami = "ami-07d8796a2b0f8d29c"
+# resource "aws_instance" "ansible_instance" {
+#   ami = "ami-07d8796a2b0f8d29c"
 
-  instance_type = "t2.micro"
+#   instance_type = "t2.micro"
 
-  associate_public_ip_address = true
+#   associate_public_ip_address = true
 
-  subnet_id = aws_subnet.publicsubnet.id
+#   subnet_id = aws_subnet.publicsubnet.id
 
-  vpc_security_group_ids = [aws_security_group.allow_tls.id]
+#   vpc_security_group_ids = [aws_security_group.allow_tls.id]
 
-  tags = {
-    Name = "eng99_raj_terraform_ansible"
-  }
+#   tags = {
+#     Name = "eng99_raj_terraform_ansible"
+#   }
 
-  key_name = "eng99"
-}
+#   key_name = "eng99"
+# }
 
 # To initialise we use terraform init
 # terraform plan

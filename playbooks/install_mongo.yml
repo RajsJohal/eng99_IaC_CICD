@@ -1,0 +1,23 @@
+# Installing mongo in db vm
+---
+# hosts name 
+- hosts: db
+
+# gather facts for installation steps
+  gather_facts: true
+
+# we need admin access
+  become: true
+
+# the actual task is to install mongodb in db machine
+  tasks:
+  - name: Install MongoDB in DB Agent Node
+    apt: pkg=mongodb state=present
+  - name: Modify Mongod.conf file, update BindIP to be 0.0.0.0
+    lineinfile:
+      path: /etc/mongodb.conf
+      regexp: '^bind_ip'                                                                                     
+      line: 'bind_ip = 0.0.0.0'                                                                            
+      backrefs: yes                                                                                    
+  - name: Restart and enable mongodb
+    shell: sudo systemctl restart mongodb && sudo systemctl enable mongodb

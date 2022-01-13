@@ -34,6 +34,6 @@ pipeline {
 ```
 
 ## Ansible Integration
-- Ansible Plugin, downloaded ansible and pytho on jenkins ec2 and added path to the binary folder where ansible lies. 
+- Ansible Plugin, downloaded ansible and python on jenkins ec2 and added path to the binary folder where ansible lies. 
 - Playbooks can be stored within jenkins, along with the vault and hosts file. 
-- 
+- Jenkins server instance acts as a ansible controller

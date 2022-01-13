@@ -20,7 +20,7 @@ sudo npm install pm2 -g
 
 #replace default file in nginx 
 # sudo rm -rf /etc/nginx/sites-available/default
-sudo cp /home/vagrant/app/default /etc/nginx/sites-available/default
+# sudo cp /home/vagrant/app/default /etc/nginx/sites-available/default
 
 #update bashrc with env var DB_HOST
 # sudo rm -rf .bashrc
