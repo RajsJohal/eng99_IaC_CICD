@@ -1,7 +1,7 @@
 # Installing mongo in db vm
 ---
 # hosts name 
-- hosts: awsdb
+- hosts: db
 
 # gather facts for installation steps
   gather_facts: true
