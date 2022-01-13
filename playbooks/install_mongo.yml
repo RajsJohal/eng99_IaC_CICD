@@ -11,6 +11,8 @@
 
 # the actual task is to install mongodb in db machine
   tasks:
+  - name: Update and Upgrade
+    shell: sudo apt-get update -y && sudo apt-get upgrade -y
   - name: Install MongoDB in DB Agent Node
     apt: pkg=mongodb state=present
   - name: Modify Mongod.conf file, update BindIP to be 0.0.0.0
