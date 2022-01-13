@@ -1,5 +1,5 @@
 ---
-- hosts: web
+- hosts: awsweb
   gather_facts: true
   become: true
   tasks:
