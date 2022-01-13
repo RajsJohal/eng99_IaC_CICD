@@ -9,5 +9,8 @@
   - name: Install Git
     shell: sudo apt-get install git -y
 
+  - name: remove repo
+    shell: rm -rf eng99_IaC_CICD
+
   - name: Clone Repo
     shell: git clone https://github.com/RajsJohal/eng99_IaC_CICD.git
