@@ -50,3 +50,4 @@ output "db_instance_ip" {
 ```
 - This prints the IP of app and db instance whenever terraform apply is run 
 - Need to add these IPs to the host file, either through echo or lineinfile command 
+- `echo -e "[app]\nec2-instance ansible_host=$(terraform output app_instance_ip) ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/eng99.pem " | sed 's/"//g' > hosts` - adds instance ip to hosts file
