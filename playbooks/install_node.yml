@@ -1,0 +1,30 @@
+# File to congure and install nodejs in web gent node
+---
+- hosts: web
+  gather_facts: true
+  become: true
+  tasks:
+  - name: update and upgrade
+    shell: sudo apt-get update -y && sudo apt-get upgrade -y
+
+  - name: Install NodeJS in web Agent Node
+    shell: curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && sudo apt-get install nodejs -y
+
+  - name: Install NPM
+    apt: pkg=npm state=present
+
+  - name: Install pm2
+    npm:
+      name: pm2
+      global: yes
+
+  - name: Env Variable
+    shell: echo "export DB_HOST=mongodb://192.168.33.11:27017/posts" >> ~/.bashrc                            
+                                                                                                            
+  - name: Seed Database + Run App                                                                      
+    shell: |
+      cd eng99_IaC_CICD/app/app/
+      npm install
+      node seeds/seed.js
+      pm2 kill
+      pm2 start

@@ -3,6 +3,8 @@
   gather_facts: true
   become: true
   tasks:
+  - name: update and upgrade
+    shell: sudo apt-get update -y && sudo apt-get upgrade -y
   - name: Install Nginx in web Agent Node
     apt: pkg=nginx state=present
     become_user: root

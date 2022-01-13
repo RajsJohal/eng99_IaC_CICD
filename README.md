@@ -11,7 +11,7 @@
 pipeline {
     agent any
     stages {
-        stage('Remove files') {
+        stage('remove files') {
             steps {
                 sh 'rm -rf eng99_IaC_CICD'
             }
@@ -21,13 +21,16 @@ pipeline {
                 sh 'git clone https://github.com/RajsJohal/eng99_IaC_CICD.git'
             }
         }
-        stage('Apply Terraform') {
+        stage('Apply Terraform'){
             steps {
-                dir('eng99_IaC_CICD/terraform') {
+                dir('eng99_IaC_CICD/terraform'){
                     sh 'terraform init'
                     sh 'terraform apply --auto-approve'
+                    sh 'chmod +x ./hosts_config.sh'
+                    sh './hosts_config.sh'
                 }
             }
+           
         }
     }
 }
@@ -49,5 +52,29 @@ output "db_instance_ip" {
 }
 ```
 - This prints the IP of app and db instance whenever terraform apply is run 
-- Need to add these IPs to the host file, either through echo or lineinfile command 
-- `echo -e "[app]\nec2-instance ansible_host=$(terraform output app_instance_ip) ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/eng99.pem " | sed 's/"//g' > hosts` - adds instance ip to hosts file
+- Created a provision file for hosts file to copy IP into hosts file
+- `echo -e "[app]\nec2-instance ansible_host=$(terraform output app_instance_ip) ansible_user=ubuntu  | sed 's/"//g' > hosts` - adds instance ip to hosts file
+- Hosts file converted into .inv in order to provide jenkins the inventory file which contains node ip in order to provision instances
+
+## Ansible Playbook in Jenkins
+- Create a new pipeline job within Jenkins 
+- Create a pipeline script and use the pipeline syntax to create a git command to copy the repo and a ansible playbook job to run the playbook within the ec2 instances
+```
+pipeline {
+    agent any
+    stages{
+        stage('clone repo with playbooks'){
+            steps{
+                git branch: 'main', url: 'https://github.com/RajsJohal/eng99_IaC_CICD.git'
+            }
+            
+        }
+        stage('execute db playbook'){
+            steps {
+                ansiblePlaybook credentialsId: 'eng99_raj_ssh', disableHostKeyChecking: true, installation: 'ansible1', inventory: 'terraform/hosts.inv', playbook: 'playbooks/install_mongo.yml'
+            }
+            
+        }
+    }
+}
+```
