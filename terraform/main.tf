@@ -289,6 +289,14 @@ resource "aws_instance" "db_instance" {
   key_name = "eng99"
 }
 
+output "app_instance_ip" {
+  value = aws_instance.app_instance.public_ip
+}
+
+output "db_instance_ip" {
+  value = aws_instance.db_instance.public_ip
+}
+
 # NAT Instance
 # resource "aws_instance" "ansible_instance" {
 #   ami = "ami-07d8796a2b0f8d29c"
