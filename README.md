@@ -101,3 +101,4 @@ pipeline {
 ```
 
 - Pipeline script runs all the playbooks except for the last playbook which fails when trying to start application
+- Issue with obtaining hosts.inv file when running terraform from jenkins, host.inv needs to be available in repo in order to provide path to the ansible playbook pipeline. 
