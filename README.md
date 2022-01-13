@@ -63,18 +63,41 @@ output "db_instance_ip" {
 pipeline {
     agent any
     stages{
+        stage('remove repo') {
+            steps {
+                sh 'rm -rf eng99_IaC_CICD'
+            }
+        }
         stage('clone repo with playbooks'){
             steps{
                 git branch: 'main', url: 'https://github.com/RajsJohal/eng99_IaC_CICD.git'
             }
             
         }
-        stage('execute db playbook'){
+        stage('execute playbooks'){
             steps {
                 ansiblePlaybook credentialsId: 'eng99_raj_ssh', disableHostKeyChecking: true, installation: 'ansible1', inventory: 'terraform/hosts.inv', playbook: 'playbooks/install_mongo.yml'
             }
             
         }
+        stage('execute app setup playbook') {
+            steps {
+                ansiblePlaybook credentialsId: 'eng99_raj_ssh', disableHostKeyChecking: true, installation: 'ansible1', inventory: 'terraform/hosts.inv', playbook: 'playbooks/app_setup.yml'
+            }
+            
+        }
+        stage('execute nginx playbook') {
+            steps {
+                ansiblePlaybook credentialsId: 'eng99_raj_ssh', disableHostKeyChecking: true, installation: 'ansible1', inventory: 'terraform/hosts.inv', playbook: 'playbooks/install_nginx.yml'
+            }
+        }
+        stage('execute app') {
+            steps {
+                ansiblePlaybook credentialsId: 'eng99_raj_ssh', disableHostKeyChecking: true, installation: 'ansible1', inventory: 'terraform/hosts.inv', playbook: 'playbooks/install_node.yml'
+            }
+        }
     }
 }
 ```
+
+- Pipeline script runs all the playbooks except for the last playbook which fails when trying to start application

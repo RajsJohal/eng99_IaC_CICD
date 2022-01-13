@@ -25,6 +25,6 @@
     shell: |
       cd eng99_IaC_CICD/app/app/
       npm install
-      node seeds/seed.js
-      pm2 kill
-      pm2 start
+      # node seeds/seed.js
+      # pm2 kill
+      # pm2 start
