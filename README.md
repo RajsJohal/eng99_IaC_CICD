@@ -66,9 +66,11 @@ echo -e "[db]\nec2-instance ansible_host=$(terraform output db_instance_ip) ansi
 ## Ansible Playbook in Jenkins
 - Create a new pipeline job within Jenkins 
 - Create a pipeline script and use the pipeline syntax to create a git command to copy the repo and a ansible playbook job to run the playbook within the ec2 instances
+- Pipeline syntax code generator for ansible playbook and git:
 ![ansible playbook](images/Capture.PNG)
 ![git](images/git.PNG) 
 
+- Pipeline script to run playbooks, code generated from pipeline syntax
 ```
 pipeline {
     agent any
