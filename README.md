@@ -51,9 +51,9 @@ pipeline {
 ```
 #!/bin/bash
 
-echo -e "[app]\nec2-instance ansible_host=$(terraform output app_instance_ip) ansible_user=ubuntu" | sed 's/"//g' > hosts.inv
+echo -e "[app]\n$(terraform output app_instance_ip) ansible_user=ubuntu" | sed 's/"//g' > hosts.inv
 
-echo -e "[db]\nec2-instance ansible_host=$(terraform output db_instance_ip) ansible_user=ubuntu" | sed 's/"//g' >> hosts.inv
+echo -e "[db]\n$(terraform output db_instance_ip) ansible_user=ubuntu" | sed 's/"//g' >> hosts.inv
 ```
 - Obtains the IP of both app and db ec2 instances and echoes into the hosts.inv to be used as a hosts file witin ansible in jenkins
 - This code is added to a provisioning file and run within the pipeline job. 
@@ -76,43 +76,45 @@ echo -e "[db]\nec2-instance ansible_host=$(terraform output db_instance_ip) ansi
 pipeline {
     agent any
     stages{
-        stage('remove repo') {
-            steps {
-                sh 'rm -rf eng99_IaC_CICD'
-            }
-        }
-        stage('clone repo with playbooks'){
-            steps{
-                git branch: 'main', url: 'https://github.com/RajsJohal/eng99_IaC_CICD.git'
-            }
-            
-        }
         stage('execute playbooks'){
             steps {
+                dir('../terraform_pipeline/eng99_IaC_CICD'){
                 ansiblePlaybook credentialsId: 'eng99_raj_ssh', disableHostKeyChecking: true, installation: 'ansible1', inventory: 'terraform/hosts.inv', playbook: 'playbooks/install_mongo.yml'
+                }
+                
             }
             
-        }
-        stage('execute app setup playbook') {
+        } 
+        stage('execute app-setup playbook'){
             steps {
+                dir('../terraform_pipeline/eng99_IaC_CICD'){
                 ansiblePlaybook credentialsId: 'eng99_raj_ssh', disableHostKeyChecking: true, installation: 'ansible1', inventory: 'terraform/hosts.inv', playbook: 'playbooks/app_setup.yml'
+                }
+                
             }
             
         }
         stage('execute nginx playbook') {
             steps {
+                dir('../terraform_pipeline/eng99_IaC_CICD'){
                 ansiblePlaybook credentialsId: 'eng99_raj_ssh', disableHostKeyChecking: true, installation: 'ansible1', inventory: 'terraform/hosts.inv', playbook: 'playbooks/install_nginx.yml'
+                }
+                
             }
         }
         stage('execute app') {
             steps {
+                dir('../terraform_pipeline/eng99_IaC_CICD'){
                 ansiblePlaybook credentialsId: 'eng99_raj_ssh', disableHostKeyChecking: true, installation: 'ansible1', inventory: 'terraform/hosts.inv', playbook: 'playbooks/install_node.yml'
+                }   
+                
             }
         }
     }
 }
 ```
+- For each stage, specify the workspace where the terraform pipeline ran in order to acquire the hosts.inv file to be refernced when running the playbooks
 
 - Pipeline script runs all the playbooks except for the last playbook which fails when trying to start application
-- Another issue with hosts file and playbooks, the playbooks only run on the db instance and not the app instance, seems to only recognise db node but not the app node
+- 
 - Another issue with obtaining hosts.inv file when running terraform from jenkins, host.inv needs to be available in repo so that the file path can be provided to the ansible plugin when creating the pipeline syntax command. 
