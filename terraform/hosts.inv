@@ -1,4 +1,4 @@
 [app]
-ec2-instance ansible_host=54.171.186.152 ansible_user=ubuntu 
+ec2-instance ansible_host=54.74.178.200 ansible_user=ubuntu 
 [db]
-ec2-instance ansible_host=3.249.61.20 ansible_user=ubuntu 
+ec2-instance ansible_host=3.248.211.162 ansible_user=ubuntu 
