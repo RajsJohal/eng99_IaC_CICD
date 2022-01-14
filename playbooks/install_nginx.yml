@@ -9,7 +9,7 @@
     apt: pkg=nginx state=present
     become_user: root
   - name: Reverse Proxy Configuration
-    shell: cp /home/ubuntu/eng99_IaC_CICD/app/default /etc/nginx/sites-available/default
+    shell: scp /home/ubuntu/eng99_IaC_CICD/app/default /etc/nginx/sites-available/default
                                                                                                 
   - name: Restart Nginx                                                                         
     shell: sudo systemctl restart nginx && sudo systemctl enable nginx
