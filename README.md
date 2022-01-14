@@ -1,11 +1,13 @@
 # Implementing IaC in Jenkins CICD Pipeline
+
+## Terraform Implementation
 - Set Up Jenkins server in EC2 instance - refer to jenkins cicd repo for guide. 
 - Install plugins for Node, Git and Terraform
 - Configure settings for Terraform
 - Install CloudBees AWS Credentials plugin
 - Attempted to create a pipeline job within jenkins to run my terraform main.tf file to create instances
 - Issues with jenkins not being able to find my terraform plugin so had to manually dial into jenkins and install terraform and configure the path within the Global Tool Configuration. 
-- Add AWS Credentials (access and secret keys) in manage jenkins and Global Config settings
+- Add AWS Credentials (access and secret keys) in manage jenkins, configuration and global propertie, you can set environment variables for the AWS keys. 
 - added the following command to the terraform script:
 ```
 output "app_instance_ip" {
@@ -114,7 +116,3 @@ pipeline {
 }
 ```
 - For each stage, specify the workspace where the terraform pipeline ran in order to acquire the hosts.inv file to be refernced when running the playbooks
-
-- Pipeline script runs all the playbooks except for the last playbook which fails when trying to start application
-- 
-- Another issue with obtaining hosts.inv file when running terraform from jenkins, host.inv needs to be available in repo so that the file path can be provided to the ansible plugin when creating the pipeline syntax command. 
