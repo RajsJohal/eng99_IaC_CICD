@@ -114,4 +114,5 @@ pipeline {
 ```
 
 - Pipeline script runs all the playbooks except for the last playbook which fails when trying to start application
+- Another issue with hosts file and playbooks, the playbooks only run on the db instance and not the app instance, seems to only recognise db node but not the app node
 - Another issue with obtaining hosts.inv file when running terraform from jenkins, host.inv needs to be available in repo so that the file path can be provided to the ansible plugin when creating the pipeline syntax command. 
