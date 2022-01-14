@@ -59,6 +59,7 @@ echo -e "[db]\n$(terraform output db_instance_ip) ansible_user=ubuntu" | sed 's/
 ```
 - Obtains the IP of both app and db ec2 instances and echoes into the hosts.inv to be used as a hosts file witin ansible in jenkins
 - This code is added to a provisioning file and run within the pipeline job. 
+- There is another metthod to create a hosts file by running a yml file which obtains the information about running instances refer [here](https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_ec2_inventory.html) and [here](https://medium.com/geekculture/a-complete-overview-of-ansible-dynamic-inventory-a9ded104df4c)
 
 ## Ansible Integration
 - Ansible Plugin, downloaded ansible and python on jenkins ec2 and added path to the binary folder where ansible lies. 

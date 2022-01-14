@@ -19,7 +19,7 @@
       global: yes
 
   - name: Env Variable
-    shell: echo "export DB_HOST=mongodb://192.168.33.11:27017/posts" >> ~/.bashrc                            
+    shell: echo "export DB_HOST=mongodb://(ip):27017/posts" >> ~/.bashrc                            
                                                                                                             
   - name: Seed Database + Run App                                                                      
     shell: |
